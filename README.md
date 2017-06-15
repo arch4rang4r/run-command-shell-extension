@@ -8,7 +8,7 @@ For Arch users, run makepkg with the provided PKGBUILD.  I might put a version i
 
     git clone https://github.com/arch4rang4r/aorun.git
 	cd aorun
-	make install
+	sudo make install
 
 You may have to restart GNOME Shell before aorun will work.
 
