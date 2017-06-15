@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.aorun.SearchProvider
+Exec=/usr/lib/aorun/aorun.py
+SystemdService=org.aorun.SearchProvider.service
