@@ -4,7 +4,7 @@ aorun provides a search provider for GNOME Shell that allows executing arbitrary
 
 # Installation
 
-For Arch users, run makepkg with the provided PKGBUILD.  I might put a version in the AUR some time.  For other distros, run
+For Arch users, run makepkg with the provided PKGBUILD and the latest release tarball.  I might put a version in the AUR some time.  For other distros, run
 
     git clone https://github.com/arch4rang4r/aorun.git
 	cd aorun
