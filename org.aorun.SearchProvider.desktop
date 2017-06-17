@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Categories=GNOME;
-Icon=system-run
-Name=aorun
-Comment=GNOME Shell search provider executing arbitrary commands
-Terminal=false
-Type=Application
-NoDisplay=true

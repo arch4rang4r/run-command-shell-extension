@@ -1,7 +1,0 @@
-[Unit]
-Description=aorun search provider for GNOME Shell
-
-[Service]
-Type=dbus
-BusName=org.aorun.SearchProvider
-ExecStart=/usr/lib/aorun/aorun.py
