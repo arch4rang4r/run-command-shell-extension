@@ -40,7 +40,7 @@ const RunCommandSearchProvider = new Lang.Class({
 		callback(retval);
 	},
 	activateResult: function(identifier, terms, timestamp) {
-		Util.spawn([identifier]);
+		Util.spawn(terms);
 	},
 	launchSearch: function(terms, timestamp) {
 	}
