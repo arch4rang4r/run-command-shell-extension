@@ -16,10 +16,14 @@ const RunCommandSearchProvider = new Lang.Class({
 		return results;
 	},
 	getInitialResultSet: function(terms, callback, cancellable) {
-		callback(terms);
+		let term = '';
+		for (let i = 0; i < terms.length; i++) {
+			term = term + terms[i] + ' ';
+		}
+		callback([term.trim()]);
 	},
 	getSubsearchResultSet: function(previous, current, callback, cancellable) {
-		callback(current);
+		this.getInitialResultSet(current, callback, cancellable);
 	},
 	getResultMetas: function(identifiers, callback) {
 		let retval = [];
