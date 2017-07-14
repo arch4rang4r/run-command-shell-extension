@@ -11,6 +11,6 @@ Clone this repo into ~/.local/share/gnome-shell/extensions, e.g.
 
     mkdir -p ~/.local/share/gnome-shell/extensions
 	cd ~/.local/share/gnome-shell/extensions
-    git clone https://github.com/arch4rang4r/aorun.git run-command-shell-extension@arch4rang4r.github.com
+    git clone https://github.com/arch4rang4r/run-command-shell-extension.git run-command-shell-extension@arch4rang4r.github.com
 
 Then enable it in tweak-tool.
