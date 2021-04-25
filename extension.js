@@ -56,13 +56,21 @@ function init() {
 function enable() {
 	if (!runCommandSearchProvider) {
 		runCommandSearchProvider = new RunCommandSearchProvider();
-		Main.overview.viewSelector._searchResults._registerProvider(runCommandSearchProvider);
+		if (Main.overview.viewSelector !== undefined) { // << 40
+			Main.overview.viewSelector._searchResults._registerProvider(runCommandSearchProvider);
+		} else {  // GNOME 40
+			Main.overview._overview.controls._searchController._searchResults._registerProvider(runCommandSearchProvider);
+		}
 	}
 }
 
 function disable() {
 	if (runCommandSearchProvider) {
-		Main.overview.viewSelector._searchResults._unregisterProvider(runCommandSearchProvider);
+		if (Main.overview.viewSelector !== undefined) { // << 40
+			Main.overview.viewSelector._searchResults._unregisterProvider(runCommandSearchProvider);
+		} else {
+			Main.overview._overview.controls._searchController._searchResults._unregisterProvider(runCommandSearchProvider);
+		}
 		runCommandSearchProvider = null;
 	}
 }
