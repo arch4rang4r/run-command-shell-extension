@@ -15,17 +15,20 @@ const RunCommandSearchProvider = new Lang.Class({
 	filterResults: function(results, max) {
 		return results;
 	},
-	getInitialResultSet: function(terms, callback, cancellable) {
+	getInitialResultSet: async function(terms, cancellable) {
+		return this._getResults(terms);
+	},
+	getSubsearchResultSet: async function(previous, current, cancellable) {
+		return this._getResults(current);
+	},
+	_getResults: function(terms) {
 		let term = '';
 		for (let i = 0; i < terms.length; i++) {
 			term = term + terms[i] + ' ';
 		}
-		callback([term.trim()]);
+		return [term.trim()];
 	},
-	getSubsearchResultSet: function(previous, current, callback, cancellable) {
-		this.getInitialResultSet(current, callback, cancellable);
-	},
-	getResultMetas: function(identifiers, callback) {
+	getResultMetas: async function(identifiers, callback) {
 		let retval = [];
 		for (let i = 0; i < identifiers.length; i++) {
 			retval.push({
@@ -41,7 +44,7 @@ const RunCommandSearchProvider = new Lang.Class({
 				}
 			});
 		}
-		callback(retval);
+		return retval;
 	},
 	activateResult: function(identifier, terms, timestamp) {
 		Util.spawn(terms);
