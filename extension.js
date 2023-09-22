@@ -1,34 +1,28 @@
-const Main = imports.ui.main;
-const Lang = imports.lang;
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const Util = imports.misc.util;
-const St = imports.gi.St;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import St from 'gi://St';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-let runCommandSearchProvider = null;
-
-const RunCommandSearchProvider = new Lang.Class({
-	Name: 'runCommandSearchProvider',
-	_init: function() {
-		this.id = 'runCommandSearchProvider';
-	},
-	filterResults: function(results, max) {
+export default class RunCommandSearchProvider extends Extension {
+	filterResults (results, max) {
 		return results;
-	},
-	getInitialResultSet: async function(terms, cancellable) {
+	}
+	async getInitialResultSet (terms, cancellable) {
 		return this._getResults(terms);
-	},
-	getSubsearchResultSet: async function(previous, current, cancellable) {
+	}
+	async getSubsearchResultSet (previous, current, cancellable) {
 		return this._getResults(current);
-	},
-	_getResults: function(terms) {
+	}
+	_getResults (terms) {
 		let term = '';
 		for (let i = 0; i < terms.length; i++) {
 			term = term + terms[i] + ' ';
 		}
 		return [term.trim()];
-	},
-	getResultMetas: async function(identifiers, callback) {
+	}
+	async getResultMetas (identifiers, callback) {
 		let retval = [];
 		for (let i = 0; i < identifiers.length; i++) {
 			retval.push({
@@ -45,17 +39,23 @@ const RunCommandSearchProvider = new Lang.Class({
 			});
 		}
 		return retval;
-	},
-	activateResult: function(identifier, terms, timestamp) {
-		Util.spawn(terms);
-	},
-	launchSearch: function(terms, timestamp) {
 	}
-});
+	activateResult (identifier, terms, timestamp) {
+		Util.spawn(terms);
+	}
+	launchSearch (terms, timestamp) {
+	}
+	enable() {
+		Main.overview._overview.controls._searchController._searchResults._registerProvider(this);
+	}
+	disable() {
+		Main.overview._overview.controls._searchController._searchResults._unregisterProvider(this);
+	}
+};
 
 function init() {
 }
-
+/*
 function enable() {
 	if (!runCommandSearchProvider) {
 		runCommandSearchProvider = new RunCommandSearchProvider();
@@ -77,3 +77,28 @@ function disable() {
 		runCommandSearchProvider = null;
 	}
 }
+*/
+/*
+export default class MyTestExtension {
+	function enable() {
+		if (!runCommandSearchProvider) {
+			runCommandSearchProvider = new RunCommandSearchProvider();
+			if (Main.overview.viewSelector !== undefined) { // << 40
+				Main.overview.viewSelector._searchResults._registerProvider(runCommandSearchProvider);
+			} else {  // GNOME 40
+				Main.overview._overview.controls._searchController._searchResults._registerProvider(runCommandSearchProvider);
+			}
+		}
+	}
+	function disable() {
+		if (runCommandSearchProvider) {
+			if (Main.overview.viewSelector !== undefined) { // << 40
+				Main.overview.viewSelector._searchResults._unregisterProvider(runCommandSearchProvider);
+			} else {
+				Main.overview._overview.controls._searchController._searchResults._unregisterProvider(runCommandSearchProvider);
+			}
+			runCommandSearchProvider = null;
+		}
+	}
+}
+*/
