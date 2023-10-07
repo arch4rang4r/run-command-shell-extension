@@ -5,7 +5,10 @@ import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import St from 'gi://St';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-export default class RunCommandSearchProvider extends Extension {
+class RunCommandSearchProvider {
+	constructor (extension) {
+		this._extension = extension;
+	}
 	filterResults (results, max) {
 		return results;
 	}
@@ -45,60 +48,15 @@ export default class RunCommandSearchProvider extends Extension {
 	}
 	launchSearch (terms, timestamp) {
 	}
-	enable() {
-		Main.overview._overview.controls._searchController._searchResults._registerProvider(this);
-	}
-	disable() {
-		Main.overview._overview.controls._searchController._searchResults._unregisterProvider(this);
-	}
 };
 
-function init() {
-}
-/*
-function enable() {
-	if (!runCommandSearchProvider) {
-		runCommandSearchProvider = new RunCommandSearchProvider();
-		if (Main.overview.viewSelector !== undefined) { // << 40
-			Main.overview.viewSelector._searchResults._registerProvider(runCommandSearchProvider);
-		} else {  // GNOME 40
-			Main.overview._overview.controls._searchController._searchResults._registerProvider(runCommandSearchProvider);
-		}
+export default class SearchExtension extends Extension {
+	enable () {
+		this._provider = new RunCommandSearchProvider(this);
+		Main.overview.searchController.addProvider(this._provider);
+	}
+	disable () {
+		Main.overview.searchController.removeProvider(this._provider);
+		this._provider = null;
 	}
 }
-
-function disable() {
-	if (runCommandSearchProvider) {
-		if (Main.overview.viewSelector !== undefined) { // << 40
-			Main.overview.viewSelector._searchResults._unregisterProvider(runCommandSearchProvider);
-		} else {
-			Main.overview._overview.controls._searchController._searchResults._unregisterProvider(runCommandSearchProvider);
-		}
-		runCommandSearchProvider = null;
-	}
-}
-*/
-/*
-export default class MyTestExtension {
-	function enable() {
-		if (!runCommandSearchProvider) {
-			runCommandSearchProvider = new RunCommandSearchProvider();
-			if (Main.overview.viewSelector !== undefined) { // << 40
-				Main.overview.viewSelector._searchResults._registerProvider(runCommandSearchProvider);
-			} else {  // GNOME 40
-				Main.overview._overview.controls._searchController._searchResults._registerProvider(runCommandSearchProvider);
-			}
-		}
-	}
-	function disable() {
-		if (runCommandSearchProvider) {
-			if (Main.overview.viewSelector !== undefined) { // << 40
-				Main.overview.viewSelector._searchResults._unregisterProvider(runCommandSearchProvider);
-			} else {
-				Main.overview._overview.controls._searchController._searchResults._unregisterProvider(runCommandSearchProvider);
-			}
-			runCommandSearchProvider = null;
-		}
-	}
-}
-*/
